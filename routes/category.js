@@ -1,53 +1,26 @@
 const express = require('express'); 
 const router = express.Router(); 
 const reqRecievedLogger = require('../middlewares/reqRecievedLogger'); 
+const { 
+      getCategories, 
+      postCategory, 
+      deleteCategories, 
+      getCategory, 
+      updateCategory, 
+      deleteCategory
+} = require('../controllers/categoryController'); 
+const { categoryValidator } = require('../middlewares/utils/validators'); 
 
 router.route('/')
-      .get(reqRecievedLogger, (req, res, next) => {
-            res
-            .status(200)
-            .setHeader('Content-Type', 'application/json')
-            .json({ sucess: true, msg: 'show me all categories' });
-      })
-      .post(reqRecievedLogger, (req, res, next) => {
-            res
-            .status(201)
-            .setHeader('Content-Type', 'application/json')
-            .json({
-                 sucess: true, 
-                 msg: `create one category with the following attributes: 
-                Category Name: ${req.body.categoryName}
-                Gender: ${req.body.gender}
-            ` 
-        });
-      })
-      .delete(reqRecievedLogger, (req, res, next) => {
-            res
-            .status(200)
-            .setHeader('Content-Type', 'application/json')
-            .json({ success: true, msg: 'delete all categories' });
-      })
+      .get(reqRecievedLogger, getCategories)
+      .post(reqRecievedLogger, categoryValidator, postCategory)
+      .delete(reqRecievedLogger, deleteCategories)
 // why don't we have a put? 
 
 router.route('/:categoryId')
-      .get(reqRecievedLogger, (req, res, next) => {
-            res
-            .status(200)
-            .setHeader('Content-Type', 'application/json')
-            .json({ sucess: true, msg: `show me category with category ID of ${req.params.categoryId}` });
-      })
-      .put(reqRecievedLogger, (req, res, next) => {
-            res
-            .status(200)
-            .setHeader('Content-Type', 'application/json')
-            .json({ sucess: true, msg: `update category with category ID of ${req.params.categoryId}` });
-      })
-      .delete(reqRecievedLogger, (req, res, next) => {
-            res
-            .status(200)
-            .setHeader('Content-Type', 'application/json')
-            .json({ sucess: true, msg: `delete category with category ID of ${req.params.categoryId}` });
-      })
+      .get(reqRecievedLogger, getCategory)
+      .put(reqRecievedLogger, updateCategory)
+      .delete(reqRecievedLogger, deleteCategory)
 // why don't we have a post? 
 
 module.exports = router;

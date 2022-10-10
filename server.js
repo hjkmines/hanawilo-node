@@ -5,6 +5,7 @@ const item = require('./routes/item');
 const category = require('./routes/category');
 const user = require('./routes/user'); 
 const morgan = require('morgan'); 
+const bodyParser = require('body-parser'); 
 
 dotenv.config({ path: './config/config.env' }); 
 
@@ -14,9 +15,13 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
+// parse application/json
+app.use(bodyParser.json())
+
 app.use(logger);
 app.use('/api/v1/item', item);
 app.use('/api/v1/category', category);
+app.use('/api/v1/user', user);
 
 const PORT = process.env.PORT || 5001; 
 
