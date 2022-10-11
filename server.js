@@ -6,8 +6,11 @@ const category = require('./routes/category');
 const user = require('./routes/user'); 
 const morgan = require('morgan'); 
 const bodyParser = require('body-parser'); 
+const connectDB = require('./config/db');
 
 dotenv.config({ path: './config/config.env' }); 
+
+connectDB();
 
 const app = express(); 
 
