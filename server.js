@@ -7,6 +7,7 @@ const user = require('./routes/user');
 const morgan = require('morgan'); 
 const bodyParser = require('body-parser'); 
 const connectDB = require('./config/db');
+const errorHandler = require('./middlewares/error'); 
 
 dotenv.config({ path: './config/config.env' }); 
 
@@ -26,8 +27,15 @@ app.use('/api/v1/item', item);
 app.use('/api/v1/category', category);
 app.use('/api/v1/user', user);
 
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 5001; 
 
 app.listen(PORT, () => {
     console.log(`Server is listening on PORT: ${PORT}`)
 }); 
+
+process.on('unhandledRejection', (err, promise) => {
+    console.log(`Error: ${err.message}`); 
+    server.close(() => process.exit(1))
+})
