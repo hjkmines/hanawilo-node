@@ -16,6 +16,7 @@ const categoryValidator = (req, res, next) => {
 const itemValidator = (req, res, next) => {
     if (req.body) {
         if (
+            !req.body.itemName ||
             !req.body.itemDescription || 
             !req.body.gender ||
             !req.body.price ||
@@ -43,9 +44,7 @@ const userValidator = (req, res, next) => {
             !req.body.lastName || 
             !req.body.gender ||
             !req.body.email || 
-            !req.body.password ||
-            !req.body.phoneNumber ||
-            !req.body.age
+            !req.body.password
         ) {
             res
             .status(400)
