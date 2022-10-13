@@ -17,6 +17,8 @@ const CategorySchema = new Schema({
             'Female'
         ]
     }
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Category', CategorySchema);

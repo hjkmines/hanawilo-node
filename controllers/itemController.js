@@ -28,7 +28,7 @@ const getItems = async (req, res, next) => {
     }
 
     try {
-        const result = await Item.find(); 
+        const result = await Item.find().populate('ratings.author'); 
 
         res
         .status(200)
@@ -109,11 +109,63 @@ const deleteItem = async (req, res, next) => {
 
 }; 
 
+// For '/:itemId/ratings' endpoint
+const getItemRatings = async (req, res, next) => {
+    try {
+        const result = await Item.findById(req.params.itemId);
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(result.ratings)
+    } catch (err) {
+        throw new Error(`Error : ${err.message}`)
+    }
+}; 
+
+const postItemRating = async (req, res, next) => {
+    try {
+        const item = await Item.findById(req.params.itemId)
+        item.ratings.push(req.body); 
+
+        const result = await result.save(); 
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(result)
+    } catch (err) {
+        throw new Error(`Error : ${err.message}`)
+    }
+}; 
+
+const deleteItemRatings = async (req, res, next) => {
+    try {
+        let item = await Item.findById(req.params.itemId);
+
+        //delete all ratings
+        item.ratings = [];
+
+        await item.save(); 
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json({ sucess: true, msg: `deleted all ratings for item ID of ${req.params.itemId}` });
+    } catch (err) {
+        throw new Error(`Error : ${err.message}`)
+    }
+
+}; 
+
 module.exports = {
     getItems, 
     postItem, 
     deleteItems, 
     getItem, 
     updateItem, 
-    deleteItem
+    deleteItem, 
+    getItemRatings, 
+    postItemRating, 
+    deleteItemRatings
 }; 

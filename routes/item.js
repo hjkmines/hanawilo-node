@@ -7,7 +7,10 @@ const {
       deleteItems, 
       getItem, 
       updateItem, 
-      deleteItem
+      deleteItem, 
+      getItemRatings, 
+      postItemRating, 
+      deleteItemRatings
 } = require('../controllers/itemController'); 
 const { itemValidator } = require('../middlewares/utils/validators');
 
@@ -26,5 +29,10 @@ router.route('/:itemId')
       .put(reqRecievedLogger, updateItem)
       .delete(reqRecievedLogger, deleteItem)
 // why don't we have a post? 
+
+router.route('/:itemId/ratings')
+      .get(reqRecievedLogger, getItemRatings)
+      .post(reqRecievedLogger, postItemRating)
+      .delete(reqRecievedLogger, deleteItemRatings)
 
 module.exports = router;
