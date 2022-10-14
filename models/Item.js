@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema
 
-const ratingSchema = new Schema({
+const RatingSchema = new Schema({
     rating: {
         type: Number, 
         min: 1, 
@@ -62,7 +62,7 @@ const ItemSchema = new Schema({
             'X-Large'
         ]
     }, 
-    ratings: [ratingSchema]
+    ratings: [RatingSchema]
 }, {
     timestamps: true
 })
