@@ -7,8 +7,8 @@ const getItems = (req, res, next) => {
             price, 
             isClearance, 
             category, 
-            color,
-            size
+            colors,
+            sizes
          } = req.query; 
         
         const filter = [];  
@@ -17,8 +17,8 @@ const getItems = (req, res, next) => {
         if (price) filter.push(price);
         if (isClearance) filter.push(isClearance);
         if (category) filter.push(category);
-        if (color) filter.push(color);
-        if (size) filter.push(size);
+        if (colors) filter.push(colors);
+        if (sizes) filter.push(sizes);
 
         for (const query of filter) {
             console.log(`Searching item by: ${query}`); 
