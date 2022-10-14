@@ -3,13 +3,11 @@ const categoryValidator = (req, res, next) => {
         if (!req.body.categoryName || !req.body.gender) {
             res
             .status(400)
-            .setHeader('Content-Type', 'text/plain')
-            .end('Missing required fields!');
+            .setHeader('Content-Type', 'application/json')
+            .json({ success: false, msg: 'Missing required fields' });
         } else {
             next()
         }
-    } else {
-        res.end(`Request for route path: ${req.protocol} and method: ${req.method} is missing payload`); 
     }
 }; 
 
@@ -26,13 +24,11 @@ const itemValidator = (req, res, next) => {
         ) {
             res
             .status(400)
-            .setHeader('Content-Type', 'text/plain')
-            .end('Missing required fields!');
+            .setHeader('Content-Type', 'application/json')
+            .json({ success: false, msg: 'Missing required fields' });
         } else {
             next()
         }
-    } else {
-        res.end(`Request for route path: ${req.protocol} and method: ${req.method} is missing payload`); 
     }
 }; 
 
@@ -48,18 +44,28 @@ const userValidator = (req, res, next) => {
         ) {
             res
             .status(400)
-            .setHeader('Content-Type', 'text/plain')
-            .end('Missing required fields!');
+            .setHeader('Content-Type', 'application/json')
+            .json({ success: false, msg: 'Missing required fields' });
         } else {
             next()
         }
+    } 
+}
+
+const adminValidator = (req, res, next) => {
+    if (req.body.admin) {
+        next(); 
     } else {
-        res.end(`Request for route path: ${req.protocol} and method: ${req.method} is missing payload`); 
+        res
+        .status(401)
+        .setHeader('Content-Type', 'application/json')
+        .json({ success: false, msg: 'Unauthorized to access this resource!' });
     }
 }
 
 module.exports = {
     categoryValidator, 
     itemValidator, 
-    userValidator
+    userValidator, 
+    adminValidator
 };

@@ -10,9 +10,11 @@ const {
       deleteItem, 
       getItemRatings, 
       postItemRating, 
-      deleteItemRatings
+      deleteItemRatings, 
+      postItemImage
 } = require('../controllers/itemController'); 
 const { itemValidator } = require('../middlewares/utils/validators');
+const protectedRoute = require('../middlewares/auth');
 
 //isClearance is a boolean type
 //colors and sizes are arrays
@@ -20,19 +22,22 @@ const { itemValidator } = require('../middlewares/utils/validators');
 
 router.route('/')
       .get(reqRecievedLogger, getItems)
-      .post(reqRecievedLogger, itemValidator, postItem)
-      .delete(reqRecievedLogger, deleteItems)
+      .post(reqRecievedLogger, protectedRoute, itemValidator, postItem)
+      .delete(reqRecievedLogger, protectedRoute, deleteItems)
 // why don't we have a put? 
 
 router.route('/:itemId')
       .get(reqRecievedLogger, getItem)
-      .put(reqRecievedLogger, updateItem)
-      .delete(reqRecievedLogger, deleteItem)
+      .put(reqRecievedLogger, protectedRoute, updateItem)
+      .delete(reqRecievedLogger, protectedRoute, deleteItem)
 // why don't we have a post? 
 
 router.route('/:itemId/ratings')
       .get(reqRecievedLogger, getItemRatings)
-      .post(reqRecievedLogger, postItemRating)
-      .delete(reqRecievedLogger, deleteItemRatings)
+      .post(reqRecievedLogger, protectedRoute, postItemRating)
+      .delete(reqRecievedLogger, protectedRoute, deleteItemRatings)
+
+router.route('/:itemId/image')
+      .post(reqRecievedLogger, protectedRoute, postItemImage)
 
 module.exports = router;

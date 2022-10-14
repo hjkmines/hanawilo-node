@@ -62,6 +62,9 @@ const ItemSchema = new Schema({
             'X-Large'
         ]
     }, 
+    image: {
+        type: String
+    }, 
     ratings: [RatingSchema]
 }, {
     timestamps: true

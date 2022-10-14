@@ -7,24 +7,40 @@ const {
       deleteUsers, 
       getUser, 
       updateUser, 
-      deleteUser
+      deleteUser, 
+      login, 
+      forgotPassword, 
+      resetPassword, 
+      updatePassword
 } = require('../controllers/userController');
-const { userValidator } = require('../middlewares/utils/validators'); 
-
-//isClearance is a boolean type
-//colors and sizes are arrays
-//Price is a Currency type 
+const { 
+      userValidator, 
+      adminValidator
+} = require('../middlewares/utils/validators'); 
+const protectedRoute = require('../middlewares/auth');
 
 router.route('/')
-      .get(reqRecievedLogger, getUsers)
-      .post(reqRecievedLogger, userValidator, createUser)
-      .delete(reqRecievedLogger, deleteUsers)
+      .get(reqRecievedLogger, protectedRoute, adminValidator, getUsers)
+      .post(reqRecievedLogger, userValidator, createUser) //register user
+      .delete(reqRecievedLogger, protectedRoute, adminValidator, deleteUsers)
 // why don't we have a put? 
 
 router.route('/:userId')
       .get(reqRecievedLogger, getUser)
-      .put(reqRecievedLogger, updateUser)
-      .delete(reqRecievedLogger, deleteUser)
+      .put(reqRecievedLogger, protectedRoute, updateUser)
+      .delete(reqRecievedLogger, protectedRoute, deleteUser)
 // why don't we have a post? 
+
+router.route('/login')
+      .post(login)
+
+router.route('/forgotpassword')
+      .post(forgotPassword)
+
+router.route('/resetpassword')
+      .put(resetPassword)
+
+router.route('/updatepassword')
+      .put(protectedRoute, updatePassword)
 
 module.exports = router;

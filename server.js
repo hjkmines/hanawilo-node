@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser'); 
 const connectDB = require('./config/db');
 const errorHandler = require('./middlewares/error'); 
+const cookieParser = require('cookie-parser');
+const fileupload = require('express-fileupload');
 
 dotenv.config({ path: './config/config.env' }); 
 
@@ -21,6 +23,12 @@ if (process.env.NODE_ENV === 'development') {
 
 // parse application/json
 app.use(bodyParser.json())
+
+//parse cookies
+app.use(cookieParser());
+
+//file upload middleware
+app.use(fileupload());
 
 app.use(logger);
 app.use('/api/v1/item', item);
