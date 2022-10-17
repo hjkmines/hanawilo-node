@@ -53,7 +53,7 @@ const userValidator = (req, res, next) => {
 }
 
 const adminValidator = (req, res, next) => {
-    if (req.body.admin) {
+    if (req.user.admin) {
         next(); 
     } else {
         res

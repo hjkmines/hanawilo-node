@@ -143,7 +143,7 @@ const forgotPassword = async (req, res, next) => {
 
         await user.save({ validateBeforeSave: false }); 
 
-        throw new Error('Email could not be sent');
+        throw new Error('Failed to save new password');
     }
 }
 
@@ -171,7 +171,7 @@ const resetPassword = async (req, res, next) => {
 const updatePassword = async (req, res, next) => {
     const user = await User.findById(req.user.id).select('+password'); 
 
-    passwordMatches = await user.matchPassword(req.body.currentPassword);
+    const passwordMatches = await user.matchPassword(req.body.currentPassword);
 
     if (!passwordMatches) throw new Error('Password is incorrect'); 
 
