@@ -49,7 +49,7 @@ const deleteCategories = async (req, res, next) => {
 // For '/:categoryId' endpoint
 const getCategory = async (req, res, next) => {
     try {
-        const result = await Category.findById(req.categoryId)
+        const result = await Category.findById(req.params.categoryId)
 
         res
         .status(200)
@@ -62,7 +62,7 @@ const getCategory = async (req, res, next) => {
 
 const updateCategory = async (req, res, next) => {
     try {
-        const result = await Category.findByIdAndUpdate(req.categoryId, {
+        const result = await Category.findByIdAndUpdate(req.params.categoryId, {
             $set: req.body
         }, { new: true }); 
 
@@ -78,7 +78,7 @@ const updateCategory = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
     try {
-        await Category.findByIdAndDelete(req.categoryId);
+        await Category.findByIdAndDelete(req.params.categoryId);
 
         res
         .status(200)
