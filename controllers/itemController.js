@@ -31,7 +31,7 @@ const getItems = async (req, res, next) => {
     }
 
     try {
-        const result = await Item.find({}, filter, options).populate('ratings.author'); 
+        const result = await Item.find({}, filter, options); 
 
         res
         .status(200)
@@ -131,7 +131,7 @@ const postItemRating = async (req, res, next) => {
         const item = await Item.findById(req.params.itemId)
         item.ratings.push(req.body); 
 
-        const result = await result.save(); 
+        const result = await item.save(); 
 
         res
         .status(200)
@@ -158,8 +158,71 @@ const deleteItemRatings = async (req, res, next) => {
     } catch (err) {
         throw new Error(`Error : ${err.message}`)
     }
-
 }; 
+
+// For '/:itemId/ratings/:ratingId'
+const getItemRating = async (req, res, next) => {
+    try {
+        const item = await Item.findById(req.params.itemId); 
+
+        let rating = item.ratings.find(rating => (rating._id).equals(req.params.ratingId));
+
+        if (!rating) rating = { success: false, msg: `No rating found with rating id: ${req.params.ratingId}` }; 
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(rating)
+    } catch (err) {
+        throw new Error(err.message);
+    }
+};
+
+const updateItemRating = async (req, res, next) => {
+    try {
+        let item = await Item.findById(req.params.itemId); 
+
+        const rating = item.ratings.find(rating => (rating._id).equals(req.params.ratingId));
+
+        if (rating) {
+            const ratingIndexPosition = item.ratings.indexOf(rating)
+            item.ratings.splice(ratingIndexPosition, 1, req.body) //replace old rating with new updated one
+            await item.save(); 
+        } else {
+            item = { success: false, msg: `No rating found with rating id: ${req.params.ratingId}` }; 
+        }
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(item)
+    } catch (err) {
+        throw new Error(err.message);
+    }
+};
+
+const deleteItemRating = async (req, res, next) => {
+    try {
+        let item = await Item.findById(req.params.itemId); 
+
+        let rating = item.ratings.find(rating => (rating._id).equals(req.params.ratingId));
+
+        if (rating) {
+            const ratingIndexPosition = item.ratings.indexOf(rating)
+            item.ratings.splice(ratingIndexPosition, 1) //remove old rating
+            await item.save(); 
+        } else {
+            item = { success: false, msg: `No rating found with rating id: ${req.params.ratingId}` }; 
+        }
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(item)
+    } catch (err) {
+        throw new Error(err.message);
+    }
+};
 
 module.exports = {
     getItems, 
@@ -170,5 +233,8 @@ module.exports = {
     deleteItem, 
     getItemRatings, 
     postItemRating, 
-    deleteItemRatings
+    deleteItemRatings, 
+    getItemRating, 
+    updateItemRating, 
+    deleteItemRating
 }; 

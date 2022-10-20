@@ -10,7 +10,10 @@ const {
       deleteItem, 
       getItemRatings, 
       postItemRating, 
-      deleteItemRatings
+      deleteItemRatings, 
+      getItemRating, 
+      updateItemRating, 
+      deleteItemRating
 } = require('../controllers/itemController'); 
 const { itemValidator } = require('../middlewares/utils/validators');
 
@@ -34,5 +37,10 @@ router.route('/:itemId/ratings')
       .get(reqRecievedLogger, getItemRatings)
       .post(reqRecievedLogger, postItemRating)
       .delete(reqRecievedLogger, deleteItemRatings)
+
+router.route('/:itemId/ratings/:ratingId')
+      .get(reqRecievedLogger, getItemRating)
+      .put(reqRecievedLogger, updateItemRating)
+      .delete(reqRecievedLogger, deleteItemRating)
 
 module.exports = router;

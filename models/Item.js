@@ -8,8 +8,8 @@ const RatingSchema = new Schema({
         min: 1, 
         max: 5, 
         required: true, 
-        validate: (value) => {
-            return validator.isNumeric(value)
+        validate: (rating) => {
+            return typeof rating === 'number'
         }
     }, 
     text: {
@@ -28,12 +28,12 @@ const ItemSchema = new Schema({
     itemName: {
         type: String, 
         required: true, 
-        maxLength: [15, 'Item can not be more than 15 characters']
+        maxLength: [100, 'Item can not be more than 15 characters']
     }, 
     itemDescription: {
         type: String, 
         required: true, 
-        maxLength: [15, 'Item can not be more than 15 characters']
+        maxLength: [100, 'Item can not be more than 15 characters']
     }, 
     gender: {
         type: String, 
@@ -47,15 +47,15 @@ const ItemSchema = new Schema({
         type: Number, 
         required: [true, 'Please add a price'], 
         min: 0, 
-        validate: (value) => {
-            return validator.isNumeric(value)
+        validate: (price) => {
+            return typeof price === 'number'
         }
     }, 
     isClearance: {
         type: Boolean, 
         default: false, 
-        validate: (value) => {
-            return validator.isBoolean(value)
+        validate: (isClearance) => {
+            return typeof isClearance === 'boolean'
         }
     }, 
     colors: {
@@ -77,17 +77,15 @@ const ItemSchema = new Schema({
     timestamps: true
 })
 
-ItemSchema.pre('save', () => {
+ItemSchema.pre('save', function(next) {
     this.itemName = this.itemName.trim(); 
     this.itemDescription = this.itemDescription.trim(); 
 
     next(); 
 })
 
-ItemSchema.post('save', () => {
+ItemSchema.post('save', function(next) {
     this.itemName = this.itemName.toUpperCase(); 
-    
-    next(); 
 })
 
 module.exports = mongoose.model('Item', ItemSchema);
