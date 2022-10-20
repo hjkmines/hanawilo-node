@@ -11,10 +11,6 @@ const {
 } = require('../controllers/userController');
 const { userValidator } = require('../middlewares/utils/validators'); 
 
-//isClearance is a boolean type
-//colors and sizes are arrays
-//Price is a Currency type 
-
 router.route('/')
       .get(reqRecievedLogger, getUsers)
       .post(reqRecievedLogger, userValidator, createUser)

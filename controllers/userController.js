@@ -3,26 +3,27 @@ const User = require('../models/User');
 //For '/' endpoint
 const getUsers = async (req, res, next) => {
     //query parameter 
+    const filter = {};
+    const options = {}; 
     if (Object.keys(req.query).length) {
         const {
             userName, 
             gender, 
-            age
+            limit, 
+            sortByAge
         } = req.query
 
-        const filter = []; 
+        if (userName) filter.userName = true 
+        if (gender) filter.gender = true
 
-        if (userName) filter.push(userName); 
-        if (gender) filter.push(gender); 
-        if (age) filter.push(age); 
-
-        for (const query of filter) {
-            console.log(`Searching user(s) by: ${query}`)
+        if (limit) options.limit = limit; 
+        if (sortByAge) options.sort = {
+            firstName: sortByAge === 'asc' ? 1 : -1 
         }
     }
 
     try {
-        const result = await User.find(); 
+        const result = await User.find({}, filter, options).exec()
     
         res
         .status(200)
@@ -79,7 +80,7 @@ const updateUser = async (req, res, next) => {
     try {
         const result = await User.findByIdAndUpdate(req.params.userId, {
             $set: req.body
-        }, { new: true })
+        }, { new: true, runValidators: true })
 
         res
         .status(200)

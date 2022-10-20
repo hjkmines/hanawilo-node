@@ -1,12 +1,16 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema
+const validator = require('validator');
 
 const RatingSchema = new Schema({
     rating: {
         type: Number, 
         min: 1, 
         max: 5, 
-        required: true
+        required: true, 
+        validate: (value) => {
+            return validator.isNumeric(value)
+        }
     }, 
     text: {
         type: String, 
@@ -42,11 +46,17 @@ const ItemSchema = new Schema({
     price: {
         type: Number, 
         required: [true, 'Please add a price'], 
-        min: 0
+        min: 0, 
+        validate: (value) => {
+            return validator.isNumeric(value)
+        }
     }, 
     isClearance: {
         type: Boolean, 
-        default: false 
+        default: false, 
+        validate: (value) => {
+            return validator.isBoolean(value)
+        }
     }, 
     colors: {
         type: [String], 
@@ -65,6 +75,19 @@ const ItemSchema = new Schema({
     ratings: [RatingSchema]
 }, {
     timestamps: true
+})
+
+ItemSchema.pre('save', () => {
+    this.itemName = this.itemName.trim(); 
+    this.itemDescription = this.itemDescription.trim(); 
+
+    next(); 
+})
+
+ItemSchema.post('save', () => {
+    this.itemName = this.itemName.toUpperCase(); 
+    
+    next(); 
 })
 
 module.exports = mongoose.model('Item', ItemSchema);

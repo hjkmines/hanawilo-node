@@ -3,13 +3,25 @@ const Category = require('../models/Category');
 // For '/' endpoint 
 const getCategories = async (req, res, next) => {
     // query parameter
+    const filter = {}; 
+    const options = {};
     if (Object.keys(req.query).length) {
-        const category = req.query.category
-        console.log(`Searching for category: ${category}`);
+        const { 
+            category, 
+            sortByCategory, 
+            limit
+        } = req.query; 
+
+        if (category) filter.category = true; 
+
+        if (limit) options.limit = limit; 
+        if (sortByCategory) options.sort = {
+            category: sortByCategory === 'asc' ? 'ascending' : 'descending'
+        }
     }
     
     try {
-        const result = await Category.find(); 
+        const result = await Category.find({}, filter, options);
 
         res
         .status(200)
@@ -64,7 +76,7 @@ const updateCategory = async (req, res, next) => {
     try {
         const result = await Category.findByIdAndUpdate(req.categoryId, {
             $set: req.body
-        }, { new: true }); 
+        }, { new: true, runValidators: true }); 
 
         res
         .status(200)
