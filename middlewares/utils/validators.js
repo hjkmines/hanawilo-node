@@ -18,7 +18,6 @@ const itemValidator = (req, res, next) => {
             !req.body.itemDescription || 
             !req.body.gender ||
             !req.body.price ||
-            !req.body.category ||
             !req.body.colors ||
             !req.body.sizes
         ) {

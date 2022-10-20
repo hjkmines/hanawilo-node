@@ -32,15 +32,15 @@ const UserSchema = new Schema({
         type: String, 
         required: [true, 'Please add a email'], 
         unique: true, 
-        validate: (value) => {
-            return validator.isEmail(value)
+        validate: (email) => {
+            return validator.isEmail(email)
         }
     }, 
     password: {
         type: String, 
         required: [true, 'Please add a password'], 
-        validate: (value) => {
-            return validator.isStrongPassword(value)
+        validate: (password) => {
+            return validator.isStrongPassword(password)
         }
     }, 
     resetPasswordToken: {

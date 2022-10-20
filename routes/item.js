@@ -11,7 +11,10 @@ const {
       getItemRatings, 
       postItemRating, 
       deleteItemRatings, 
-      postItemImage
+      postItemImage,
+      getItemRating, 
+      updateItemRating, 
+      deleteItemRating
 } = require('../controllers/itemController'); 
 const { itemValidator } = require('../middlewares/utils/validators');
 const protectedRoute = require('../middlewares/auth');
@@ -39,5 +42,10 @@ router.route('/:itemId/ratings')
 
 router.route('/:itemId/image')
       .post(reqRecievedLogger, protectedRoute, postItemImage)
+
+router.route('/:itemId/ratings/:ratingId')
+      .get(reqRecievedLogger, getItemRating)
+      .put(reqRecievedLogger, updateItemRating)
+      .delete(reqRecievedLogger, deleteItemRating)
 
 module.exports = router;
