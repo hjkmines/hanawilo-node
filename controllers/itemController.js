@@ -4,32 +4,35 @@ const path = require('path');
 //For '/' endpoint 
 const getItems = async (req, res, next) => {
     //query parameter 
+    const filter = {}; 
+    const options = {};
     if (Object.keys(req.query).length) {
-        const { 
+        const {
             gender, 
             price, 
             isClearance, 
             category, 
-            colors,
-            sizes
-         } = req.query; 
-        
-        const filter = [];  
+            colors, 
+            sizes, 
+            sortByPrice, 
+            limit
+        } = req.query
 
-        if (gender) filter.push(gender);
-        if (price) filter.push(price);
-        if (isClearance) filter.push(isClearance);
-        if (category) filter.push(category);
-        if (colors) filter.push(colors);
-        if (sizes) filter.push(sizes);
+        if (gender) filter.gender = true; 
+        if (price) filter.price = true; 
+        if (isClearance) filter.isClearance = true;
+        if (category) filter.category = true; 
+        if (colors) filter.colors = true; 
+        if (sizes) filter.sizes = true; 
 
-        for (const query of filter) {
-            console.log(`Searching item by: ${query}`); 
+        if (limit) options.limit = limit; 
+        if (sortByPrice) options.sort = {
+            price: sortByPrice === 'asc' ? 1 : -1
         }
     }
 
     try {
-        const result = await Item.find().populate('ratings.author'); 
+        const result = await Item.find({}, filter, options).populate('ratings.author'); 
 
         res
         .status(200)
@@ -85,7 +88,7 @@ const updateItem = async (req, res, next) => {
     try {
         const result = await Item.findByIdAndUpdate(req.params.itemId, {
             $set: req.body
-        }, { new: true })
+        }, { new: true, runValidators: true })
 
         res
         .status(200)

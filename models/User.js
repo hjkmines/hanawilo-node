@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs'); 
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const validator = require('validator');
 
 const UserSchema = new Schema({
     userName: {
@@ -30,11 +31,17 @@ const UserSchema = new Schema({
     email: {
         type: String, 
         required: [true, 'Please add a email'], 
-        unique: true
+        unique: true, 
+        validate: (value) => {
+            return validator.isEmail(value)
+        }
     }, 
     password: {
         type: String, 
-        required: [true, 'Please add a password']
+        required: [true, 'Please add a password'], 
+        validate: (value) => {
+            return validator.isStrongPassword(value)
+        }
     }, 
     resetPasswordToken: {
         type: String
