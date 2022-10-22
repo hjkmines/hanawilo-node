@@ -58,7 +58,7 @@ const UserSchema = new Schema({
 })
 
 // bcrypt
-UserSchema.pre('save', async (next) => {
+UserSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {
         next();
     }
@@ -67,17 +67,17 @@ UserSchema.pre('save', async (next) => {
     this.password = await bcrypt.hash(this.password, salt); 
 })
 
-UserSchema.methods.getSignedJwtToken = () => {
+UserSchema.methods.getSignedJwtToken = function() {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE
     });
 }
 
-UserSchema.methods.matchPassword = async (enteredPassword) => {
+UserSchema.methods.matchPassword = function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password); 
 }
 
-UserSchema.methods.getResetPasswordToken = () => {
+UserSchema.methods.getResetPasswordToken = function() {
     const resetToken = crypto.randomBytes(20).toString('hex');
 
     this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex'); 
