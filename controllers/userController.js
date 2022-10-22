@@ -183,6 +183,16 @@ const updatePassword = async (req, res, next) => {
     sendTokenResponse(user, 200, res);
 }
 
+// For '/logout' endpoint
+const logout = async (req, res, next) => {
+    res.cookie('token', 'none', {
+        expires: new Date(Date.now() + 10 * 1000), 
+        httpOnly: true
+    })
+
+    res.status(200).json({ success: true })
+}
+
 const sendTokenResponse = (user, statusCode, res) => {
     const token = user.getSignedJwtToken(); 
 
@@ -209,5 +219,6 @@ module.exports = {
     login, 
     forgotPassword, 
     resetPassword, 
-    updatePassword
+    updatePassword, 
+    logout
 };
