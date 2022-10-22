@@ -11,7 +11,8 @@ const {
       login, 
       forgotPassword, 
       resetPassword, 
-      updatePassword
+      updatePassword, 
+      logout
 } = require('../controllers/userController');
 const { 
       userValidator, 
@@ -42,5 +43,8 @@ router.route('/resetpassword')
 
 router.route('/updatepassword')
       .put(protectedRoute, updatePassword)
+
+router.route('/logout')
+      .get(protectedRoute, logout)
 
 module.exports = router;
