@@ -4,15 +4,13 @@ const getUsers = (req, res, next) => {
     if (Object.keys(req.query).length) {
         const {
             userName, 
-            gender, 
-            age
+            gender
         } = req.query
 
         const filter = []; 
 
         if (userName) filter.push(userName); 
         if (gender) filter.push(gender); 
-        if (age) filter.push(age); 
 
         for (const query of filter) {
             console.log(`Searching user(s) by: ${query}`)
@@ -36,13 +34,8 @@ const createUser = (req, res, next) => {
           User First Name: ${req.body.userFirstName}
           User Last Name: ${req.body.userLastName}
           Gender: ${req.body.gender}
-          Profile Image: ${req.body.profileImage}
           Email: ${req.body.email}
           Password: ${req.body.password}
-          Favorites: ${req.body.favorites}
-          Phone Number: ${req.body.phoneNumber}
-          bio: ${req.body.bio}
-          age: ${req.body.age}
           ` 
     });
 };

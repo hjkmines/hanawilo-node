@@ -6,7 +6,6 @@ const getItems = (req, res, next) => {
             gender, 
             price, 
             isClearance, 
-            category, 
             colors,
             sizes
          } = req.query; 
@@ -16,7 +15,6 @@ const getItems = (req, res, next) => {
         if (gender) filter.push(gender);
         if (price) filter.push(price);
         if (isClearance) filter.push(isClearance);
-        if (category) filter.push(category);
         if (colors) filter.push(colors);
         if (sizes) filter.push(sizes);
 
@@ -43,7 +41,6 @@ const postItem = (req, res, next) => {
           Gender: ${req.body.gender}
           Price: ${req.body.price}
           isClearance: ${req.body.isClearance}
-          Category: ${req.body.category}
           colors: ${req.body.colors}
           sizes: ${req.body.sizes}
           ` 
