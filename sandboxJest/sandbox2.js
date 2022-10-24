@@ -39,8 +39,8 @@ const functions = {
   isNull: () => null,
   checkValue: x => x,
   createUser: () => {
-    const user = { firstName: 'Brad' };
-    user['lastName'] = 'Traversy';
+    const user = { firstName: 'Tony' };
+    user['lastName'] = 'Kim';
     return user;
   },
   fetchUser: () =>
@@ -59,9 +59,72 @@ return str
       .join('');
 }
 
+// Below is for the assignment 
+const twoSum = (nums, target) => {
+  for (let i = 0; i < nums.length; i++) {
+    for(let j = i + 1; i < nums.length; j++) {
+      if (nums[i] + nums[j] === target) {
+        return [i, j]
+      }
+    }
+  }
+}
+
+const fetchProfile = async () => {
+  try {
+    const { results } = await axios.get('https://randomuser.me/api/')
+  } catch (err) {
+    throw new Error('Error fetching for profile')
+  }
+
+  return results;
+}
+
+const removeNumberFromArray = (arr, numberToRemove) => {
+  if (!arr.length) {
+    throw new Error('Missing array');
+  } else if (arr.includes(numberToRemove)) {
+    const index = arr.indexOf(numberToRemove); 
+    return arr.splice(index, 1);
+  } else {
+    throw new Error(`Array does not include number ${numberToRemove}`)
+  }
+}
+
+const addNewProperty = (obj, property, value) => {
+  if (!property && !value) {
+    throw new Error('Missing both property and value');
+  } else {
+    return obj[property] = value; 
+  }
+}
+
+const sortArray = (arr) => {
+  if (!arr) {
+    throw new Error('Missing array'); 
+  } else {
+    return arr.sort()
+  }
+}
+
+const upperCaseWords = (words) => {
+  if (!arr) {
+    throw new Error('Missing array'); 
+  } else {
+    return words.map(word => word.toUpperCase());
+  }
+}
+
 module.exports = {
     isAnagram, 
     chunkArray, 
     functions, 
-    reverseString
+    reverseString, 
+    twoSum, 
+    fetchProfile, 
+    removeNumberFromArray, 
+    addNewProperty, 
+    sortArray, 
+    upperCaseWords
 }
+
