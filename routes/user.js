@@ -26,12 +26,6 @@ router.route('/')
       .delete(reqRecievedLogger, protectedRoute, adminValidator, deleteUsers)
 // why don't we have a put? 
 
-router.route('/:userId')
-      .get(reqRecievedLogger, getUser)
-      .put(reqRecievedLogger, protectedRoute, updateUser)
-      .delete(reqRecievedLogger, protectedRoute, deleteUser)
-// why don't we have a post? 
-
 router.route('/login')
       .post(login)
 
@@ -46,5 +40,11 @@ router.route('/updatepassword')
 
 router.route('/logout')
       .get(protectedRoute, logout)
+
+router.route('/:userId')
+      .get(reqRecievedLogger, getUser)
+      .put(reqRecievedLogger, protectedRoute, updateUser)
+      .delete(reqRecievedLogger, protectedRoute, deleteUser)
+// why don't we have a post? 
 
 module.exports = router;
