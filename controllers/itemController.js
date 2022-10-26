@@ -173,7 +173,7 @@ const postItemImage = async (req, res, next) => {
 
     file.name = `photo_${path.parse(file.name).ext}`
 
-    const filePath = __dirname + "/files" + file.name;
+    const filePath = process.env.FILE_UPLOAD_PATH + file.name;
 
     file.mv(filePath, async err => {
         if (err) throw new Error('Problem uploading photo');
