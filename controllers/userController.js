@@ -150,7 +150,7 @@ const forgotPassword = async (req, res, next) => {
 
 // For '/resetPassword' endpoint
 const resetPassword = async (req, res, next) => {
-    const resetPasswordToken = crypto.createHash('sha256').update(req.params.resettoken).digest('hex'); 
+    const resetPasswordToken = crypto.createHash('sha256').update(req.query.resettoken).digest('hex'); 
 
     const user = await User.findOne({
         resetPasswordToken,
@@ -172,7 +172,7 @@ const resetPassword = async (req, res, next) => {
 const updatePassword = async (req, res, next) => {
     const user = await User.findById(req.user.id).select('+password'); 
 
-    const passwordMatches = await user.matchPassword(req.body.currentPassword);
+    const passwordMatches = await user.matchPassword(req.body.password);
 
     if (!passwordMatches) throw new Error('Password is incorrect'); 
 
