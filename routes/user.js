@@ -11,7 +11,11 @@ const {
       login, 
       forgotPassword, 
       resetPassword, 
+<<<<<<< HEAD
       updatePassword, 
+=======
+      updatePassword,
+>>>>>>> week3
       logout
 } = require('../controllers/userController');
 const { 
@@ -46,6 +50,5 @@ router.route('/:userId')
       .put(reqRecievedLogger, protectedRoute, updateUser)
       .delete(reqRecievedLogger, protectedRoute, deleteUser)
 // why don't we have a post? 
-
 
 module.exports = router;
