@@ -11,11 +11,7 @@ const {
       login, 
       forgotPassword, 
       resetPassword, 
-<<<<<<< HEAD
-      updatePassword, 
-=======
       updatePassword,
->>>>>>> week3
       logout
 } = require('../controllers/userController');
 const { 
