@@ -11,6 +11,8 @@ const {
     upperCaseWords
 } = require('./sandbox2');
 
+const axios = require('axios')
+
 test('isAnagram function exists', () => {
     expect(typeof isAnagram).toEqual('function');
   });
@@ -93,8 +95,8 @@ test('Should be falsy', () => {
 // toEqual
 test('User should be Brad Traversy object', () => {
   expect(functions.createUser()).toEqual({
-    firstName: 'Brad',
-    lastName: 'Traversy'
+    firstName: 'Tony',
+    lastName: 'Kim'
   });
 });
 

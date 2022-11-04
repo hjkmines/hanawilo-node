@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node server",
     "dev": "nodemon server",
-    "jest": "jest"
+    "test": "jest"
   },
   "author": "Tony Kim",
   "license": "ISC",
